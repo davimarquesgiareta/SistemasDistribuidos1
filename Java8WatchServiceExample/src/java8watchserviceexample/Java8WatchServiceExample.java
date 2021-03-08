@@ -1,5 +1,6 @@
 package java8watchserviceexample;
  
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import static java.nio.file.StandardWatchEventKinds.*;
@@ -102,28 +103,78 @@ public class Java8WatchServiceExample {
                         // do something useful
                     }
                 }
+                
+                if (kind == ENTRY_DELETE){
+                    deletarArquivo(child);
+                }
             }
+                
  
             // reset key and remove from set if directory no longer accessible
             boolean valid = key.reset();
             if (!valid) {
                 keys.remove(key);
- 
+                
                 // all directories are inaccessible
                 if (keys.isEmpty()) {
+                   
                     break;
                 }
             }
         }
     }
+    
+    public static void deletarArquivo (Path child){
+        System.out.println("ENTROU NA DELETANCIA");
+        System.out.println(" E O CHILD? : "+child);
+         String[] caminhosplit = new String[6];
+         String caminho = child.toString();
+         caminhosplit = caminho.split("pastatestes");
+                
+             System.out.println("Caminho Split");
+             for (int i = 0; i < caminhosplit.length; i++) {
+                 System.out.println("->  "+caminhosplit[i]);
+        }
+             
+            String baseCaminhoBackup1 = "C:\\Users\\davim\\Desktop\\backup1";
+            String baseCaminhoBackup2 = "C:\\Users\\davim\\Desktop\\backup2";
+            String caminhoCompleto1 = baseCaminhoBackup1.concat(caminhosplit[1]);
+            String caminhoCompleto2 = baseCaminhoBackup2.concat(caminhosplit[1]);
+            
+            System.out.println("1 - " + caminhoCompleto1);
+             System.out.println("2 - " + caminhoCompleto2);
+        
+        File f1 = new File(caminhoCompleto1);  
+        File f2 = new File(caminhoCompleto2);  
+        f1.delete();
+        f2.delete();
+    }
  
     public static void copiarArquivo(Path child) {
-
+              String[] caminhosplit = new String[6];
+              String caminho = child.toString();
+             caminhosplit = caminho.split("pastatestes");
+                
+             System.out.println("Caminho Split");
+             for (int i = 0; i < caminhosplit.length; i++) {
+                 System.out.println("->  "+caminhosplit[i]);
+        }
+             
+             
+          
         try {
             System.out.println("o famoso child é "+ child);
-            String inFileName = "C:\\Users\\davim\\Desktop\\pastatestes\\vai.txt";
-            String outFileName = "C:\\Users\\davim\\Desktop\\backup1\\vai.txt";
-            String outFileName2 = "C:\\Users\\davim\\Desktop\\backup2\\vai.txt";
+            String inFileName = caminho;
+            String baseCaminhoBackup1 = "C:\\Users\\davim\\Desktop\\backup1";
+            String baseCaminhoBackup2 = "C:\\Users\\davim\\Desktop\\backup2";
+            String caminhoCompleto1 = baseCaminhoBackup1.concat(caminhosplit[1]);
+            String caminhoCompleto2 = baseCaminhoBackup2.concat(caminhosplit[1]);
+            
+            System.out.println("Caminho 1" + caminhoCompleto1);
+            System.out.println("Caminho2 " +caminhoCompleto2);
+            
+            String outFileName = caminhoCompleto1;
+            String outFileName2 = caminhoCompleto2;
 
             FileInputStream in = new FileInputStream(inFileName);
             FileOutputStream out = new FileOutputStream(outFileName);
