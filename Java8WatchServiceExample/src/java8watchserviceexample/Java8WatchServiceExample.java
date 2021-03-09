@@ -92,7 +92,7 @@ public class Java8WatchServiceExample {
                 System.out.format("%s %s\n", event.kind().name(), child);
                 
                 // if directory is created, and watching recursively, then register it and its sub-directories
-                if (kind == ENTRY_CREATE) {
+                if (kind == ENTRY_CREATE || kind == ENTRY_MODIFY) {
                     try {
                         copiarArquivo(child);
                         if (Files.isDirectory(child)) {
@@ -107,6 +107,8 @@ public class Java8WatchServiceExample {
                 if (kind == ENTRY_DELETE){
                     deletarArquivo(child);
                 }
+                
+                
             }
                 
  
@@ -117,7 +119,7 @@ public class Java8WatchServiceExample {
                 
                 // all directories are inaccessible
                 if (keys.isEmpty()) {
-                   
+                  
                     break;
                 }
             }
